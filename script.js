@@ -46,3 +46,29 @@ $("#employee-submit-btn").on("click", function(event) {
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
 });
+
+database.ref().on(
+  "child_added",
+  function(childSnapshot) {
+    console.log(childSnapshot.val().employee);
+    console.log(childSnapshot.val().dateAdded);
+    console.log(childSnapshot.val().role);
+    console.log(childSnapshot.val().monthlyRate);
+    console.log(childSnapshot.val().startDate);
+
+    var cSVal = childSnapshot.val();
+
+    var newTr = $("<tr>");
+    newTr
+      .append("<td>" + cSVal.employee + "</td>")
+      .append("<td>" + cSVal.role + "</td>")
+      .append("<td>" + cSVal.startDate + "</td>")
+      .append("<td>" + "69" + "</td>")
+      .append("<td>" + cSVal.monthlyRate + "</td>")
+      .append("<td>" + "THOUSANDS" + "</td>");
+    $(".employee-data").append(newTr);
+  },
+  function(errorObject) {
+    console.log(errorObject.data);
+  }
+);
