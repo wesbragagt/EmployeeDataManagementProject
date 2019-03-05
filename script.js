@@ -1,5 +1,3 @@
-//
-
 // FIREBASE CONFIG
 var config = {
   apiKey: "AIzaSyDQ5qTtJ_H8RNDcFST-d7W20xqUnUKAlPE",
@@ -69,6 +67,6 @@ database.ref().on(
     $(".employee-data").append(newTr);
   },
   function(errorObject) {
-    console.log(errorObject.data);
+    alert(errorObject.data);
   }
 );
