@@ -34,12 +34,12 @@ $("#employee-submit-btn").on("click", function(event) {
     .val()
     .trim();
 
-  console.log(employee, role, startDate, monthlyRate);
+  //   console.log(employee, role, startDate, monthlyRate);
 
   database.ref().push({
     employee: employee,
     role: role,
-    startDate: startDate,
+    startDate: moment(startDate).format("X"),
     monthlyRate: monthlyRate,
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
@@ -55,18 +55,28 @@ database.ref().on(
     console.log(childSnapshot.val().startDate);
 
     var cSVal = childSnapshot.val();
+    var unixDate = moment.unix(cSVal.startDate);
 
     var newTr = $("<tr>");
     newTr
       .append("<td>" + cSVal.employee + "</td>")
       .append("<td>" + cSVal.role + "</td>")
-      .append("<td>" + cSVal.startDate + "</td>")
-      .append("<td>" + "69" + "</td>")
+      .append("<td>" + unixDate.format("MM/DD/YYYY") + "</td>")
+      .append("<td>" + moment().diff(unixDate, "months") + "</td>")
       .append("<td>" + cSVal.monthlyRate + "</td>")
-      .append("<td>" + "THOUSANDS" + "</td>");
+      .append(
+        "<td>" +
+          parseInt(moment().diff(unixDate, "months")) *
+            parseInt(cSVal.monthlyRate) +
+          "</td>"
+      );
     $(".employee-data").append(newTr);
   },
   function(errorObject) {
     alert(errorObject.data);
   }
 );
+
+// WORK WITH MOMENT JS  and calculate months working since employee started working
+
+alert(moment().format("MM/DD/YYYY"));
